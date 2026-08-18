@@ -1,4 +1,4 @@
 'use client';
-export default function MyPage() {
+export default function Page() {
   return <span>Hello World</span>;
 }
