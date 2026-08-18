@@ -24,7 +24,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="ko"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col !bg-red-300 border-2">
 
         <header>
           <nav className="flex gap-4">
@@ -33,7 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </nav>
         </header>
         
-        <main>
+        <main className="flex-1">
         {children}
         </main>
 
