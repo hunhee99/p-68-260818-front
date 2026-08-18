@@ -1,4 +1,4 @@
 'use client';
 export default function MyPage() {
-  return <div>Hello World</div>;
+  return <span>Hello World</span>;
 }
