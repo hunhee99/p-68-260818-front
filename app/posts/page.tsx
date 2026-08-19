@@ -21,11 +21,11 @@ export default function Posts() {
     {posts.length === 0
     ? <div>로딩중...</div>
     : <ul>
-        {posts.map((post) => 
+        {posts.map((post) => (
         <li key={post.id}>
               {post.id} : {post.title}
         </li>
-        )}
+        ))}
     </ul>}
     </>
   );
