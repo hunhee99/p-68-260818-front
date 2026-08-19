@@ -1,10 +1,11 @@
 'use client';
 
+import { PostDto } from "@/src/type/post";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Posts() {
-    const [posts, setPostes] = useState<{id: number; title: string}[]>([]);
+    const [posts, setPostes] = useState<PostDto[]>([]);
 
     // useEffect(() => {}, []);
     useEffect(() => {

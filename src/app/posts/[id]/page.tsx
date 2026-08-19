@@ -1,23 +1,16 @@
 'use client';
 
+import { PostDto } from "@/src/type/post";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
-interface postDto {
-    id : number; 
-    title : string;
-    content : string;
-    createDate : string;
-    modifyDate : string;
-}
-
 export default function Detail() {
     const {id} = useParams();
-    const [post, setPost] = useState<postDto | null>(null);
+    const [post, setPost] = useState<PostDto | null>(null);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/v1/posts/${id}`)
+        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/posts/${id}`)
         .then((res) => res.json())
         .then((data) => {
             setPost(data);
