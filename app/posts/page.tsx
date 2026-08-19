@@ -1,21 +1,32 @@
 'use client';
-export default function Posts() {
-    const posts = [
-    { id: 1, title: "글1" },
-    { id: 2, title: "글2" },
-    { id: 3, title: "글3" },
-    { id: 4, title: "글4" },
-    { id: 5, title: "글5" },
-    { id: 6, title: "글6" },
-    { id: 7, title: "글7" },
-    { id: 8, title: "글8" },
-    { id: 9, title: "글9" },
-    { id: 10, title: "글10" },
-  ];
 
-  return <ul>
-    {
-        posts.map(p => <li key={p.id}>{p.title}</li>)
-    }
-    </ul>;
+import { useEffect, useState } from "react";
+
+export default function Posts() {
+    const [posts, setPostes] = useState<{id: number; title: string}[]>([]);
+
+    // useEffect(() => {}, []);
+    useEffect(() => {
+        fetch('http://localhost:8080/api/v1/posts') // 디폴트가 get 요청
+        .then((res) => res.json())
+        .then((data) => {
+        console.log(data);
+        setPostes(data);
+        })
+    }, []);
+    
+
+  return (
+    <>
+    {posts.length === 0
+    ? <div>로딩중...</div>
+    : <ul>
+        {posts.map((post) => 
+        <li key={post.id}>
+              {post.id} : {post.title}
+        </li>
+        )}
+    </ul>}
+    </>
+  );
 }
