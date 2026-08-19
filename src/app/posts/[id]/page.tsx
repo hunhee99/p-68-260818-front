@@ -38,44 +38,46 @@ export default function Detail() {
 
     return (
         <>
-        <div>
-            <h1 className="p-2">글 상세 페이지</h1>
-            <div>번호 : {post.id}</div>
-            <div>제목 : {post.title}</div>
-            <div>내용 : {post.content}</div>
-        </div>
+        <div className="flex gap-4 flex-col justify-center">
+            <div className="border-2 p-2 rounded">
+                <div>
+                    <h1 className="p-2">글 상세 페이지</h1>
+                    <div>번호 : {post.id}</div>
+                    <div>제목 : {post.title}</div>
+                    <div>내용 : {post.content}</div>
+                </div>
 
-        <div className="flex gap-4">
-
-            <Link className="border-2 p-2 rounded" href={`/posts/${post.id}/edit`}>
-                수정
-            </Link>
-
-            <button 
-            className="border-2 p-2 rounded"
-            onClick={() => {
-                deletePost(post.id);
-            }}
-            >
-                삭제
-            </button>
-            
-        </div>
+                <div className="flex gap-4 justify-center">
+                    <Link className="border-1 p-1 rounded" href={`/posts/${post.id}/edit`}>
+                        수정
+                    </Link>
+                    <button 
+                    className="border-1 p-1 rounded"
+                    onClick={() => {
+                        deletePost(post.id);
+                    }}
+                    >
+                        삭제
+                    </button>
+                </div>
+                </div>
         
-        {/* 댓글 목록 */}
-        <h2 className="p-2">댓글 목록</h2>
-        {postComments.length === 0 && <div>댓글이 없습니다.</div>}
+            {/* 댓글 목록 */}
+            <div className="border-2 p-2 rounded">
+            <h2 className="p-2">댓글 목록</h2>
+            {postComments.length === 0 && <div>댓글이 없습니다.</div>}
 
-        {postComments.length > 0 && (
-            <ul>
-                {postComments.map((postComment) => (
-                    <li key={postComment.id}>
-                        {postComment.id} : {postComment.comment}
-                    </li>
-                ))}
-            </ul>
-        )}
-
+            {postComments.length > 0 && (
+                <ul>
+                    {postComments.map((postComment) => (
+                        <li key={postComment.id}>
+                            {postComment.id} : {postComment.comment}
+                        </li>
+                    ))}
+                </ul>
+            )}
+            </div>
+        </div>
         </>
     )
 }
