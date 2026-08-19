@@ -1,20 +1,23 @@
 'use client';
 
+import { fetchApi } from "@/src/lib/client";
 import { PostDto } from "@/src/type/post";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Posts() {
-    const [posts, setPostes] = useState<PostDto[]>([]);
+    const [posts, setPosts] = useState<PostDto[]>([]);
 
     // useEffect(() => {}, []);
     useEffect(() => {
-        fetch('http://localhost:8080/api/v1/posts') // 디폴트가 get 요청
-        .then((res) => res.json())
-        .then((data) => {
-        console.log(data);
-        setPostes(data);
-        })
+        // fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/posts`) // 디폴트가 get 요청
+        // .then((res) => res.json())
+        // .then((data) => {
+        // setPosts(data);
+        // })
+
+        fetchApi("/api/v1/posts")
+        .then(setPosts);
     }, []);
     
 
