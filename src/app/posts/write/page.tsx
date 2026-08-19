@@ -36,7 +36,7 @@ export default function Write() {
             })
         })
         .then(data => {
-            alert(data.data.id);
+            alert(data.msg);
             router.replace(`/posts/${data.data.id}`)
         });
     }

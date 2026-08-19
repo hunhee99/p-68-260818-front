@@ -9,7 +9,7 @@ export default function Posts() {
     const [posts, setPosts] = useState<PostDto[]>([]);
 
     useEffect(() => {
-        fetchApi('/api/v1/posts')
+        fetchApi("/api/v1/posts")
             .then(setPosts);
     }, []);
 

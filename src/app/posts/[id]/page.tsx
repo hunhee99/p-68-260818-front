@@ -2,6 +2,7 @@
 
 import { fetchApi } from "@/lib/client";
 import { PostDto } from "@/type/post";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -42,7 +43,12 @@ export default function Detail() {
             <div>내용 : {post.content}</div>
         </div>
 
-        <div>
+        <div className="flex gap-4">
+
+            <Link className="border-2 p-2 rounded" href={`/posts/${post.id}/edit`}>
+                수정
+            </Link>
+
             <button 
             className="border-2 p-2 rounded"
             onClick={() => {
@@ -51,6 +57,7 @@ export default function Detail() {
             >
                 삭제
             </button>
+            
         </div>
         </>
     )
