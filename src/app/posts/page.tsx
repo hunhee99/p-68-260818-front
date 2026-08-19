@@ -1,39 +1,37 @@
 'use client';
-
-import { fetchApi } from "@/src/lib/client";
-import { PostDto } from "@/src/type/post";
+import { fetchApi } from "@/lib/client";
+import { PostDto } from "@/type/post";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Posts() {
+
     const [posts, setPosts] = useState<PostDto[]>([]);
 
-    // useEffect(() => {}, []);
     useEffect(() => {
-        // fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/posts`) // 디폴트가 get 요청
-        // .then((res) => res.json())
-        // .then((data) => {
-        // setPosts(data);
-        // })
-
-        fetchApi("/api/v1/posts")
-        .then(setPosts);
+        fetchApi('/api/v1/posts')
+            .then(setPosts);
     }, []);
-    
 
-  return (
-    <>
-    {posts.length === 0
-    ? <div>로딩중...</div>
-    : <ul>
-        {posts.map((post) => (
-        <Link key={post.id} href={`/posts/${post.id}`}>
-            <li>
-                  {post.id} : {post.title}
-            </li>
-        </Link>
-        ))}
-    </ul>}
-    </>
-  );
+
+    return (
+        <>
+            {posts.length === 0
+                ? <div>로딩중..</div>
+                :<div className="flex flex-col gap-4 items-center"> 
+                    <ul>
+                        {posts.map((post) => (
+                            <Link key={post.id} href={`/posts/${post.id}`}>
+                                <li>
+                                    {post.id} : {post.title}
+                                </li>
+                            </Link>
+                        ))}
+                    </ul>
+                    <Link href="/posts/write">
+                        글 작성
+                    </Link>
+                </div>
+            }
+        </>);
 }

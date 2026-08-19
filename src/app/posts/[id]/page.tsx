@@ -1,7 +1,7 @@
 'use client';
 
-import { fetchApi } from "@/src/lib/client";
-import { PostDto } from "@/src/type/post";
+import { fetchApi } from "@/lib/client";
+import { PostDto } from "@/type/post";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -11,10 +11,15 @@ export default function Detail() {
     const [post, setPost] = useState<PostDto | null>(null);
 
     useEffect(() => {
-        fetchApi(`/api/v1/posts${id}`)
+        fetchApi(`/api/v1/posts/${id}`)
         .then(setPost)
 
     }, []);
+
+    const deletePost = (id: number) => {
+        fetch(`${process.env.NEXT_}`)
+
+    };
 
     if(post === null){
         return <div>로딩중...</div>
