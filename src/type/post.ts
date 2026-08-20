@@ -8,7 +8,7 @@ export type PostDto = {
 
 export type PostCommentDto = {
     id : number; 
-    comment : string;
+    content : string;
     createDate : string;
     modifyDate : string;
 };
