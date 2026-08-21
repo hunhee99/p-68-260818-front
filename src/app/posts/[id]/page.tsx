@@ -7,6 +7,23 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+function CommentItem({ comment, onDelete }: {
+    comment: PostCommentDto;
+    onDelete: (id: number) => void;
+}) {
+    return (
+        <li className="flex items-center gap-2">
+            {comment.id} : {comment.content}
+            <button
+                className="border-1 p-1 rounded"
+                onClick={() => onDelete(comment.id)}
+            >
+                삭제
+            </button>
+        </li>
+    );
+}
+
 
 export default function Detail() {
     
@@ -31,6 +48,16 @@ export default function Detail() {
                 // document.location = "/posts";
             })
     };
+
+    const deleteComment = (commentId: number) => {
+        fetchApi(`/api/v1/posts/${id}/comments/${commentId}`,
+            {method: "DELETE", 
+            }).then((data) => {
+                alert(data.msg);
+                fetchApi(`/api/v1/posts/${id}/comments`).then(setPostComments);
+            })
+    };
+
 
     const onSubmitHandle = (e: any) => {
         e.preventDefault();
@@ -101,9 +128,11 @@ export default function Detail() {
                 {postComments.length > 0 && (
                     <ul>
                         {postComments.map((postComment) => (
-                            <li key={postComment.id}>
-                                {postComment.id} : {postComment.content}
-                            </li>
+                            <CommentItem
+                                key={postComment.id}
+                                comment={postComment}
+                                onDelete={deleteComment}
+                            />
                         ))}
                     </ul>
                 )}
