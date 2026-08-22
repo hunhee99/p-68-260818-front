@@ -7,21 +7,47 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+
 function CommentItem({ comment, onDelete }: {
     comment: PostCommentDto;
     onDelete: (id: number) => void;
-}) {
-    return (
-        <li className="flex items-center gap-2">
-            {comment.id} : {comment.content}
-            <button
-                className="border-1 p-1 rounded"
-                onClick={() => onDelete(comment.id)}
-            >
-                삭제
-            </button>
-        </li>
-    );
+    }) 
+    {
+    
+        const [isModifyMode, setIsModifyMode] = useState(false);
+
+        return (
+
+            <li className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                    {comment.id} : {comment.content}
+                    <button
+                        className="border-1 p-1 rounded"
+                        onClick={() => onDelete(comment.id)}
+                    >
+                        삭제
+                    </button>
+
+                    <button
+                        className="border-1 p-1 rounded"
+                        onClick={() => {
+                            setIsModifyMode(!isModifyMode);
+                        }}
+                    >
+                        {isModifyMode ? "수정 취소" : "수정 하기"}
+                    </button>
+                </div>
+
+                {isModifyMode && (<div>
+                    <input
+                        type="text"
+                        defaultValue={comment.content}
+                        className="border-2 p-2 rounded"
+                    >
+                    </input>
+                </div>)}
+            </li>
+        );
 }
 
 
@@ -132,6 +158,7 @@ export default function Detail() {
                                 key={postComment.id}
                                 comment={postComment}
                                 onDelete={deleteComment}
+
                             />
                         ))}
                     </ul>
