@@ -7,28 +7,93 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-function CommentItem({ comment, onDelete }: {
+
+function CommentItem({ postId, comment, onDelete, onModified }: {
+    postId: string;
     comment: PostCommentDto;
     onDelete: (id: number) => void;
-}) {
-    return (
-        <li className="flex items-center gap-2">
-            {comment.id} : {comment.content}
-            <button
-                className="border-1 p-1 rounded"
-                onClick={() => onDelete(comment.id)}
-            >
-                삭제
-            </button>
-        </li>
-    );
+    onModified: () => void;
+    }) 
+    {
+    
+        const [isModifyMode, setIsModifyMode] = useState(false);
+
+        const onSubmitCommentHandle = (e: any) => {
+            e.preventDefault();
+            
+            const form = e.target;
+            const commentValue = form.modifiedComment.value;
+            
+            if (commentValue.trim().length === 0){
+                alert("내용을 입력해주세요");
+                form.modifiedComment.focus();
+                return;
+            }
+
+            fetchApi(`/api/v1/posts/${postId}/comments/${comment.id}`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify({
+                        "content": commentValue
+                    })
+                }).then((data) => {
+                    alert(data.msg);
+                    setIsModifyMode(false);
+                    onModified();
+                })
+        };
+
+        return (
+
+            <li className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                    {comment.id} : {comment.content}
+                    <button
+                        className="border-1 p-1 rounded"
+                        onClick={() => onDelete(comment.id)}
+                    >
+                        삭제
+                    </button>
+
+                    <button
+                        className="border-1 p-1 rounded"
+                        onClick={() => {
+                            setIsModifyMode(!isModifyMode);
+                        }}
+                    >
+                        {isModifyMode ? "수정 취소" : "수정 하기"}
+                    </button>
+                </div>
+
+                {isModifyMode && (<div>
+                    <form
+                        onSubmit={onSubmitCommentHandle}
+                        className="flex gap-2"
+                    >
+                        <input
+                            type="text"
+                            defaultValue={comment.content}
+                            className="border-2 p-2 rounded"
+                            name="modifiedComment"
+                        >
+                        </input>
+                        <input
+                            type="submit"
+                            className="border-2 p-2 rounded"
+                            value="수정 등록"
+                        >
+                        </input>
+                    </form>
+                </div>)}
+            </li>
+        );
 }
 
 
 export default function Detail() {
     
     const router = useRouter();
-    const {id} = useParams();
+    const {id} = useParams<{ id : string }>();
     const [post, setPost] = useState<PostDto | null>(null);
     const [postComments, setPostComments] = useState<PostCommentDto[]>([]);
     
@@ -130,8 +195,10 @@ export default function Detail() {
                         {postComments.map((postComment) => (
                             <CommentItem
                                 key={postComment.id}
+                                postId={id}
                                 comment={postComment}
                                 onDelete={deleteComment}
+                                onModified={() => fetchApi(`/api/v1/posts/${id}/comments`).then(setPostComments)}
                             />
                         ))}
                     </ul>
