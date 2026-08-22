@@ -26,12 +26,12 @@ export default function Edit() {
         const contentValue = form.content.value;
 
         if(titleValue.length === 0){
-            alert("제목을 입력해주세요")
+            alert("제목을 입력해주세요");
             form.title.focus();
             return;
         }
         if(contentValue.length === 0){
-            alert("내용을 입력해주세요")
+            alert("내용을 입력해주세요");
             form.content.focus();
             return;
         }
